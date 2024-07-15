@@ -1,4 +1,6 @@
 package com.example.BookMyShow.models;
 
-public class PaymentProvider {
+public enum PaymentProvider {
+    RAZOR_PAY,
+    PHONE_PAY
 }
