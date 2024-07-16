@@ -2,6 +2,7 @@ package com.example.BookMyShow.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class User extends BaseModel{
     private String name;
     private String email;
-    @OneToMany
+    private String password;
+    @OneToMany(mappedBy = "user")
     private List<Booking> bookings;
 }

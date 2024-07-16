@@ -1,6 +1,7 @@
 package com.example.BookMyShow.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -13,8 +14,8 @@ import java.util.List;
 public class Theater extends BaseModel{
     private String name;
     @ManyToOne
+    @JoinColumn(name = "region_id")
     private Region region;
-//    private List<Screen> screens;
     @OneToMany
     private List<Show> shows;
 }

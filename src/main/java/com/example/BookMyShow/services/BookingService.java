@@ -1,12 +1,8 @@
 package com.example.BookMyShow.services;
 
 import com.example.BookMyShow.models.*;
-import com.example.BookMyShow.repositories.ShowRepository;
-import com.example.BookMyShow.repositories.ShowSeatRepository;
-import com.example.BookMyShow.repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import com.example.BookMyShow.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +17,23 @@ public class BookingService {
     private UserRepository userRepository;
     private ShowRepository showRepository;
     private ShowSeatRepository showSeatRepository;
+    private BookingRepository bookingRepository;
+
+    private ShowSeatTypeRepository showSeatTypeRepository;
 
     @Autowired
-    public BookingService(UserRepository userRepository, ShowRepository showRepository, ShowSeatRepository showSeatRepository) {
+    public BookingService(
+            UserRepository userRepository,
+            ShowRepository showRepository,
+            ShowSeatRepository showSeatRepository,
+            BookingRepository bookingRepository,
+            ShowSeatTypeRepository showSeatTypeRepository
+    ) {
         this.userRepository = userRepository;
         this.showRepository = showRepository;
         this.showSeatRepository = showSeatRepository;
+        this.bookingRepository = bookingRepository;
+        this.showSeatTypeRepository = showSeatTypeRepository;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -78,8 +85,15 @@ public class BookingService {
         booking.setShowSeats(showSeatList);
         booking.setBookingStatus(BookingStatus.PENDING);
         booking.setBookedAt(new Date());
-        booking.setAmount(100);
+        double amount = showSeatTypeRepository.findAllByShow(show).stream()
+                .map(ShowSeatType::getPrice)
+                .reduce(0.0, Double::sum);
+
+        booking.setAmount(amount);
         booking.setPayments(new ArrayList<>());
+
+
+        bookingRepository.save(booking);
         // 9. return the booking object
         return booking;
     }

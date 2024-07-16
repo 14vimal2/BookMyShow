@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class Booking extends BaseModel {
     @ManyToOne
+    @JoinColumn(name =  "user_id")
     private User user;
     @Enumerated(EnumType.ORDINAL)
     private BookingStatus bookingStatus;
@@ -20,7 +21,7 @@ public class Booking extends BaseModel {
     private List<ShowSeat> showSeats;
     @ManyToOne
     private Show show;
-    private int amount;
-    @OneToMany
+    private double amount;
+    @OneToMany(mappedBy = "booking")
     private List<Payment> payments;
 }

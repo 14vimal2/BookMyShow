@@ -1,5 +1,8 @@
 package com.example.BookMyShow.controllers;
 
+import com.example.BookMyShow.dtos.BookTicketRequestDTO;
+import com.example.BookMyShow.dtos.BookTicketResponseDTO;
+import com.example.BookMyShow.dtos.ResponseStatus;
 import com.example.BookMyShow.services.BookingService;
 import com.example.BookMyShow.models.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
